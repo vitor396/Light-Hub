@@ -17,7 +17,7 @@ Tab1:AddDiscordInvite({
     Name = "Desplock hub | Community",
     Description = "Entre pra receber atualizações sobre o script!",
     Logo = "rbxassetid://131723242350068",
-    Invite = "https://discord.gg/ccmPVMBV7Q",
+    Invite = "https://discord.gg/C47PMD64f",
 })
 
 local TabMain = Window:MakeTab({"Main", "home"})
@@ -194,3 +194,4 @@ TabFarm:AddToggle({
         end
     end
 })
+
