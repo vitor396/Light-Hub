@@ -195,3 +195,147 @@ TabFarm:AddToggle({
     end
 
 })
+
+local TabSea = Window:MakeTab({
+    Name = "Sea Events"
+})
+
+local SectionSea = TabSea:AddSection({
+    Name = "Auto Sea Events"
+})
+
+local SeaEvents = {
+    Enabled = false,
+    Speed = 250,
+    Attack = true,
+    AttackType = "Melee"
+}
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+local function GetChar()
+    if not player.Character then
+        player.CharacterAdded:Wait()
+    end
+    player.Character:WaitForChild("HumanoidRootPart")
+    return player.Character
+end
+
+local function NoClip(state)
+    local char = GetChar()
+    for _, v in pairs(char:GetChildren()) do
+        if v:IsA("BasePart") then
+            v.CanCollide = not state
+        end
+    end
+end
+
+local function MoveTo(position)
+    local char = GetChar()
+    local Root = char.HumanoidRootPart
+    NoClip(true)
+
+    while SeaEvents.Enabled and (Root.Position - position).Magnitude > 5 do
+        local dir = (position - Root.Position).Unit
+        local step = dir * (SeaEvents.Speed * task.wait())
+        Root.CFrame = CFrame.new(Root.Position + step, position)
+    end
+    
+    NoClip(false)
+end
+
+local function FindEvent()
+    local foundEvent = nil
+
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj.Name == "SeaBeast" and obj:IsA("Model") then
+            foundEvent = obj
+        end
+        if obj.Name == "Kraken" and obj:IsA("Model") then
+            foundEvent = obj
+        end
+        if obj.Name == "PirateBrigade" and obj:IsA("Model") then
+            foundEvent = obj
+        end
+        if obj.Name == "Leviathan" and obj:IsA("Model") then
+            foundEvent = obj
+        end
+    end
+
+    return foundEvent
+end
+
+--// 🔥 Função de ATAQUE
+local function AttackTarget(target)
+    if not SeaEvents.Attack then return end
+    if not target then return end
+
+    local char = GetChar()
+    local Root = char.HumanoidRootPart
+    local targetPart = target:FindFirstChild("HumanoidRootPart") or target.PrimaryPart
+
+    if not targetPart then return end
+
+    -- AIMLOCK (vira pro evento)
+    Root.CFrame = CFrame.new(Root.Position, targetPart.Position)
+
+    -- ATAQUE REAL
+    if SeaEvents.AttackType == "Melee" then
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AttackMelee")
+    end
+
+    if SeaEvents.AttackType == "Sword" then
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AttackSword")
+    end
+
+    if SeaEvents.AttackType == "Fruit" then
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AttackBloxFruit")
+    end
+end
+
+-- LOOP PRINCIPAL
+local function MainSea()
+    while SeaEvents.Enabled do
+        local event = FindEvent()
+        if event then
+            local part = event:FindFirstChild("HumanoidRootPart") or event.PrimaryPart
+            if part then
+                MoveTo(part.Position + Vector3.new(0, 15, 0)) -- Fica em cima do monstro
+                AttackTarget(event)
+            end
+        end
+        task.wait(0.2)
+    end
+end
+
+--// 🔥 UI OPTIONS
+TabSea:AddToggle({
+    Name = "Auto Sea Events",
+    Default = false,
+    Callback = function(v)
+        SeaEvents.Enabled = v
+        if v then
+            task.spawn(MainSea)
+        end
+    end
+})
+
+TabSea:AddToggle({
+    Name = "Auto Attack",
+    Default = true,
+    Callback = function(v)
+        SeaEvents.Attack = v
+    end
+})
+
+TabSea:AddDropdown({
+    Name = "Tipo de ataque",
+    Options = {"Melee", "Sword", "Fruit"},
+    Default = "Melee",
+    Callback = function(v)
+        SeaEvents.AttackType = v
+    end
+})
+
