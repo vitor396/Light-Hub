@@ -193,6 +193,4 @@ TabFarm:AddToggle({
             task.spawn(main)
         end
     end
-
 })
-)
