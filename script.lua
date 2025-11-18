@@ -1,3 +1,5 @@
+local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
+
 local Window = redzlib:MakeWindow({
   Title = "LightHub: BloxFruits",
   SubTitle = "by Star",
@@ -191,4 +193,5 @@ TabFarm:AddToggle({
             task.spawn(main)
         end
     end
+
 })
