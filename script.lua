@@ -7,7 +7,7 @@ local Window = redzlib:MakeWindow({
 })
 
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://1438325722019266700", BackgroundTransparency = 1 },
+    Button = { Image = "rbxassetid://1440169258980999228", BackgroundTransparency = 1 },
     Corner = { CornerRadius = UDim.new(0, 6) },
 })
 
@@ -16,7 +16,7 @@ local Tab1 = Window:MakeTab({"Discord", "Info"})
 Tab1:AddDiscordInvite({
     Name = "StarVerse | Community",
     Description = "Entre pra receber atualizações sobre o script!",
-    Logo = "rbxassetid://1438325722019266700",
+    Logo = "rbxassetid://1440169258980999228",
     Invite = "https://discord.gg/C47PMD64f",
 })
 
@@ -194,6 +194,7 @@ TabFarm:AddToggle({
         end
     end
 })
+
 
 
 
