@@ -16,7 +16,7 @@ local Tab1 = Window:MakeTab({"Discord", "Info"})
 Tab1:AddDiscordInvite({
     Name = "StarVerse | Community",
     Description = "Entre pra receber atualizações sobre o script!",
-    Logo = "rbxassetid://131723242350068",
+    Logo = "rbxassetid://1429259070707073097",
     Invite = "https://discord.gg/C47PMD64f",
 })
 
@@ -194,5 +194,6 @@ TabFarm:AddToggle({
         end
     end
 })
+
 
 
